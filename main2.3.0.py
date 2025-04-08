@@ -51,9 +51,10 @@ c_fg = 1.0
 
 #计算0-0截面的总温和总压
 c = math.sqrt(k * R * t0)               #声速
+w_air_inlet = w_in + w_out              #进气道进口截面流量
 p_t0 = p0 / pi_ma_equation(ma,1.4)      #进气道进口截面总压
 print("进气道进口截面总压p_t0 = ", p_t0)
-t_t0 = t0 / t_ma_equation(ma,1.4)       #进气道出口截面总温
+t_t0 = t0 / t_ma_equation(ma,1.4)       #进气道进口截面总温
 print("进气道进口截面总温t_t0 = ", t_t0)
 
 #进气道出口的总压和总温
