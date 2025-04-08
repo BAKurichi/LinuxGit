@@ -51,27 +51,35 @@ c_fg = 1.0
 
 #计算0-0截面的总温和总压
 c = math.sqrt(k * R * t0)               #声速
-w_air_inlet = w_in + w_out              #进气道进口截面流量
+w_air_inlet_in = w_in + w_out           #进气道进口截面流量
 p_t0 = p0 / pi_ma_equation(ma,1.4)      #进气道进口截面总压
-print("进气道进口截面总压p_t0 = ", p_t0)
 t_t0 = t0 / t_ma_equation(ma,1.4)       #进气道进口截面总温
+print("进气道进口截面流量w_air_inlet_in = ", w_air_inlet_in)
+print("进气道进口截面总压p_t0 = ", p_t0)
 print("进气道进口截面总温t_t0 = ", t_t0)
 
 #进气道出口的总压和总温
+w_air_inlet_out = w_in + w_out          #进气道出口截面流量
 p2 = p_t0 * sigma_i                     #进气道出口截面总压
 t_t2 = t_t0                             #进气道出口截面总温
+print("进气道出口截面流量w_air_inlet_out = ", w_air_inlet_out)
+print("进气道出口截面总压p2 = ", p2)
+print("进气道出口截面总温t_t2 = ", t_t2)
 
 #风扇(低压压气机)进口截面参数
 w_fin = w_in + w_out                    #风扇(低压压气机)进口截面流量
 p_fin = p2                              #风扇(低压压气机)进口截面总压
 t_fin = t_t2                            #风扇(低压压气机)进口截面总温
+print("风扇(低压压气机)进口截面流量w_fin = ", w_fin)
+print("风扇(低压压气机)进口截面总压p_fin = ", p_fin)
+print("风扇(低压压气机)进口截面总温t_fin = ", t_fin)
 
 #风扇(低压压气机)出口截面参数
 w_fout = w_fin                                                  #风扇(低压压气机)出口截面流量
-print("风扇(低压压气机)出口截面流量 = ", w_fout)
 p_t22 = p2 * pi_cl                                              #风扇(低压压气机)出口截面总压
-print("风扇(低压压气机)出口截面总压p_t22 = ", p_t22)
 t_t22 = t_t2 * (1 + (pi_cl ** ((k - 1) / k) - 1) / eta_cl)      #风扇(低压压气机)出口截面总温
+print("风扇(低压压气机)出口截面流量w_fout = ", w_fout)
+print("风扇(低压压气机)出口截面总压p_t22 = ", p_t22)
 print("风扇(低压压气机)出口截面总温t_t22 = ", t_t22)
 
 #风扇每千克空气消耗的功
@@ -82,12 +90,17 @@ print("风扇每千克空气消耗的功l_cl = ", l_cl)
 w_hin = w_in                                                    #高压压气机进口截面流量
 p_hin = p_t22                                                   #高压压气机进口截面总压
 t_hin = t_t22                                                   #高压压气机进口截面总温
+print("高压压气机进口截面流量w_hin = ", w_hin)
+print("高压压气机进口截面总压p_hin = ", p_hin)
+print("高压压气机进口截面总温t_hin = ", t_hin)
 
 #高压压气机出口截面参数
 w_hout = w_hin                                                  #高压压气机出口截面流量
 p_t3 = p_t22 * pi_ch                                            #高压压气机出口截面总压
 t_t3 = t_t22 * (1 + (pi_ch ** ((k - 1) / k) - 1) / eta_ch)      #高压压气机出口截面总温
-print("高压压气机出口总温t_t3 = ", t_t3)
+print("高压压气机出口截面流量w_hout = ", w_hout)
+print("高压压气机出口截面总压p_t3 = ", p_t3)
+print("高压压气机出口截面总温t_t3 = ", t_t3)
 
 #压气机每千克空气所消耗的功
 l_ch = c_p * (t_t3 - t_t22)
@@ -95,29 +108,40 @@ print("压气机每千克空气所消耗的功l_ch = ", l_ch)
 
 #主燃烧室进口截面参数
 w_3a = w_in * (1 - delta1 - delta2)                             #主燃烧室进口截面流量
-p_rin = p_t3
+p_rin = p_t3                                                    #主燃烧室进口截面总压
+t_rin = t_t3                                                    #主燃烧室进口截面总温
+print("主燃烧室进口截面流量w_3a = ", w_3a)
+print("主燃烧室进口截面总压p_rin = ", p_rin)
+print("主燃烧室进口截面总温t_rin = ", t_rin)
 
 #主燃烧室出口参数
 f = (c_pg * t_t4 - c_p * t_t3) / (eta_b * h_u - c_pg * t_t4)    #燃烧室油气比
-print("燃烧室油气比f = ", f)
 p_t4 = p_t3 * sigma_b                                           #燃烧室出口截面总压
 f_all = 1 + f                                                   #内涵道总流量系数
 w_4 = w_3a *(1 + f)                                             #燃烧室出口截面流量
+print("燃烧室油气比f = ", f)
+print("燃烧室出口截面流量w_4 = ", w_4)
+print("燃烧室出口截面总压p_t4 = ", p_t4)
+print("燃烧室出口截面总温t_t4 = ", t_t4)
 
 #高压涡轮进口参数
 w_4a = w_4 + w_in * delta1                                                  #高压涡轮进口截面流量
 tau_m1 = c_p * w_in * delta1 * t_t3 / (c_pg * w_4a * t_t4) + w_4 / w_4a     #高压涡轮进口截面处冷却气与高温燃气混合前后总温比
 t_t4a = t_t4 * tau_m1                                                       #高压涡轮进口截面总温
 p_t4a = p_t4                                                                #高压涡轮进口截面总压
+print("高压涡轮进口截面流量w_4a = ", w_4a)
+print("高压涡轮进口截面总压p_t4a = ", p_t4a)
+print("高压涡轮进口截面总温t_t4a = ", t_t4a)
 
 #高压涡轮的出口参数
+w_5a = w_4a                                                          #高压涡轮出口截面流量
 eta_h = eta_mh * eta_th
-pi_h = (1 - l_ch / (eta_h * c_pg * t_t4a * f_all)) ** (-(k_g / (k_g - 1)))
-print(1 - l_ch/ (eta_h * c_pg * t_t4a * f_all))
-print("落压比pi_h = ", pi_h)
-
+pi_h = (1 - l_ch / (eta_h * c_pg * t_t4a * f_all)) ** (-(k_g / (k_g - 1)))        #高压涡轮落压比
 p_t5 = p_t4a / pi_h                                                         #高压涡轮出口截面总压
 t_t5 = t_t4a - t_t4a * eta_th * (1 - 1 / (pi_h ** ((k_g -1) / k_g)))        #高压涡轮出口截面总温
+print("高压涡轮落压比pi_h = ", pi_h)
+print("高压涡轮出口截面流量w_5a = ", w_5a)
+print("高压涡轮出口总压p_t5 = ", p_t5)
 print("高压涡轮出口总温t_t5 = ", t_t5)
 
 #低压涡轮进口参数
@@ -125,27 +149,37 @@ w_4c = w_4a + w_in * delta2                             #低压涡轮进口截�
 tau_m2 = ((1 - delta1 - delta2) * (1 + f) * c_pg * t_t5 + delta1 * delta2 * c_p * t_t3) / (((1 - delta1 - delta2) * (1 + f) + delta1 + delta2) * c_pg * t_t5)                                #低压涡轮进口处冷却气与高压涡轮出口气体混合前后总温比
 t_t4c = t_t5 * tau_m2                                   #低压涡轮进口截面总温
 p_t4c = p_t5                                            #低压涡轮进口截面总压
-
-
+print("低压涡轮进口截面流量w_4c = ", w_4c)
+print("低压涡轮进口截面总压p_t4c = ", p_t4c)
+print("低压涡轮进口截面总温t_t4c = ", t_t4c)
 
 #低压涡轮的出口参数
 eta_l = eta_ml * eta_tl                                                                         #低压涡轮总效率
 pi_l = (1 - l_cl * bypass_ratio /(eta_l * c_pg * t_t4c * f_all)) ** (-(k_g / (k_g - 1)))        #低压涡轮落压比
-print("落压比pi_l = ", pi_l)
 p_t6 = p_t4c / pi_l                                                                             #低压涡轮出口截面总压
-print("低压涡轮出口总压p_t6 = ", p_t6)
 t_t6 = t_t4c - t_t4c * eta_th * (1 - 1 / (pi_l ** ((k_g - 1) / k_g)))                           #低压涡轮出口截面总温
-print("低压涡轮出口总温t_t6 = ", t_t6)
 w_5c = w_4c                                                                                     #低压涡轮出口截面流量 
+print("落压比pi_l = ", pi_l)
+print("低压涡轮出口截面流量w_5c = ", w_5c)
+print("低压涡轮出口总压p_t6 = ", p_t6)
+print("低压涡轮出口总温t_t6 = ", t_t6)
 
 #尾喷管出口截面参数(假定尾喷管完全膨胀)
 t_t7 = t_t6                                     #尾喷管进出口截面总温
-p_t7 = sigma_e * p_t6                           #尾喷管进口截面总压
+p_t7 = sigma_e * p_t6                           #尾喷管出口截面总压
 print("尾喷管出口总压p_t7 = ",p_t7)
 ma1 = math.sqrt((2 / (k_g - 1)) * ((p_t7 / p_t0) ** ((k_g - 1) / k_g) - 1))
 print("尾喷管出口马赫数ma1 = ", ma1)
 t_out = t_t7 / t_ma_equation(ma1, k_g)          #尾喷管出口截面静温
 c_out = math.sqrt(k_g * R * t_out) * ma1        #尾喷管出口截面速度
+print("尾喷管进口截面流量w_5c = ", w_5c)
+print("尾喷管进口截面总温t_t7 = ", t_t7)
+print("尾喷管进口截面总压p_t6 = ", p_t6)
+print("尾喷管出口截面静温t_out = ", t_out)
+print("尾喷管出口截面速度c_out = ", c_out)
+print("尾喷管出口截面流量w_5c = ", w_5c)
+
+
 
 #外涵道出口截面参数
 t_t8 = t_t22
@@ -154,6 +188,9 @@ ma2 = math.sqrt((2 / (k_g - 1)) * ((p_t8 / p_t0) ** ((k_g -1) / k_g) - 1))
 print("外涵道排气出口马赫数ma2 = ", ma2)
 t_out1 = t_t8 / t_ma_equation(ma2,1.4)              #外涵道出口截面静温
 c_out1 = math.sqrt(k * R* t_out1) * ma2             #外涵道出口截面速度
+print("外涵道出口截面流量w_5c = ", w_5c)
+print("外涵道出口截面总温t_t8 = ", t_t8)
+print("外涵道出口截面总压p_t8 = ", p_t8)
 
 #推力
 f_g = w_in * c_out + w_out * c_out1 - (w_in + w_out) * c * 0.8
