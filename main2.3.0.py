@@ -137,7 +137,7 @@ t_t6 = t_t4c - t_t4c * eta_th * (1 - 1 / (pi_l ** ((k_g - 1) / k_g)))           
 print("低压涡轮出口总温t_t6 = ", t_t6)
 w_5c = w_4c                                                                                     #低压涡轮出口截面流量 
 
-#尾喷管(假定尾喷管完全膨胀)
+#尾喷管出口截面参数(假定尾喷管完全膨胀)
 t_t7 = t_t6                                     #尾喷管进出口截面总温
 p_t7 = sigma_e * p_t6                           #尾喷管进口截面总压
 print("尾喷管出口总压p_t7 = ",p_t7)
@@ -146,7 +146,7 @@ print("尾喷管出口马赫数ma1 = ", ma1)
 t_out = t_t7 / t_ma_equation(ma1, k_g)          #尾喷管出口截面静温
 c_out = math.sqrt(k_g * R * t_out) * ma1        #尾喷管出口截面速度
 
-#外涵道尾喷
+#外涵道出口截面参数
 t_t8 = t_t22
 p_t8 = sigma_e * p_t22
 ma2 = math.sqrt((2 / (k_g - 1)) * ((p_t8 / p_t0) ** ((k_g -1) / k_g) - 1))
