@@ -78,7 +78,7 @@ def engine_model(x):
 
     #低压涡轮的出口参数
     eta_l = eta_ml * eta_tl
-    pi_l = (1 - l_cl * bypass_ratio /(eta_l * c_pg * t_t4c * f_all)) ** (-(k_g / (k_g - 1)))
+    pi_l = (1 - l_cl * (1 + bypass_ratio) /(eta_l * c_pg * t_t4c * f_all)) ** (-(k_g / (k_g - 1)))
     p_t6 = p_t4c / pi_l #低压涡轮出口总压
     t_t6 = t_t4c - t_t4c * eta_th * (1 - 1 / (pi_l ** ((k_g -1) / k_g)))#低压涡轮出口总温
 
@@ -92,7 +92,7 @@ def engine_model(x):
     #外涵道尾喷s
     t_t8 = t_t22
     p_t8 = sigma_e * p_t22
-    ma2 = math.sqrt((2 / (k_g - 1)) * ((p_t8 / p_t0) ** ((k_g -1) / k_g) - 1))
+    ma2 = math.sqrt((2 / (k - 1)) * ((p_t8 / p_t0) ** ((k -1) / k) - 1))
     t_out1 = t_t8 / t_ma_equation(ma2,1.4) #出口静温
     c_out1 = math.sqrt(k * R* t_out1) * ma2 #出口速度
 
